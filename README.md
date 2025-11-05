@@ -1,72 +1,128 @@
-# GitHub Actions Issue Classifier 설정 가이드
+# GitHub Issue Automation with OpenAI
 
-## 개요
-이 워크플로우는 GitHub 이슈가 생성되거나 수정될 때 Azure OpenAI API를 사용하여 자동으로 이슈를 분류하고 적절한 라벨을 붙이며, 사용자에게 도움이 되는 코멘트를 자동으로 남깁니다.
+This project demonstrates automated GitHub issue classification using Azure OpenAI and includes a sample FastAPI application for testing purposes.
 
-## 설정 방법
+## Project Structure
 
-### 1. GitHub Repository Secrets 설정
+```
+├── .github/
+│   ├── workflows/
+│   │   └── issue-classifier.yml    # GitHub Actions workflow
+│   └── ISSUE_TEMPLATE/              # Issue templates
+│       ├── bug_report.yml
+│       ├── feature_request.yml
+│       └── question.yml
+├── main.py                          # FastAPI test application
+├── requirements.txt                 # Python dependencies
+└── test-api-simple.ps1             # API test script
+```
 
-워크플로우가 작동하려면 다음 시크릿을 GitHub Repository에 추가해야 합니다:
+## Features
 
-1. GitHub Repository로 이동
-2. **Settings** 탭 클릭
-3. 왼쪽 사이드바에서 **Secrets and variables** > **Actions** 클릭
-4. **New repository secret** 버튼 클릭
-5. 다음 시크릿 추가:
+### GitHub Actions Workflow
+- Automatically classifies GitHub issues using Azure OpenAI
+- Adds appropriate labels based on issue content
+- Posts helpful comments in Korean
+- Triggers on issue creation and updates
 
-#### AZURE_OPENAI_API_KEY
-- **Name**: `AZURE_OPENAI_API_KEY`
-- **Value**: `[여기에 제공받은 Azure OpenAI API 키를 입력하세요]`
+### FastAPI Test Application
+- Generates various types of errors for testing
+- Provides multiple endpoints with different error scenarios
+- Useful for creating realistic GitHub issues
 
-### 2. 워크플로우 기능
+## Setup Instructions
 
-#### 트리거 조건
-- 이슈가 새로 생성될 때 (`opened`)
-- 이슈가 수정될 때 (`edited`)
+### 1. Configure GitHub Repository Secrets
 
-#### 자동 분류 라벨
-- `bug`: 버그 리포트
-- `feature`: 새로운 기능 요청
-- `enhancement`: 기존 기능 개선
-- `documentation`: 문서 관련
-- `question`: 질문
-- `help wanted`: 도움이 필요한 이슈
-- `good first issue`: 초보자에게 적합한 이슈
-- `priority-high`: 높은 우선순위
-- `priority-medium`: 중간 우선순위
-- `priority-low`: 낮은 우선순위
+Add the following secret to your GitHub repository:
 
-#### 에러 처리
-- API 호출 실패 시 `needs-triage` 라벨 자동 추가
-- 사용자에게 친근한 에러 메시지 제공
+1. Go to Repository Settings
+2. Navigate to Secrets and variables > Actions
+3. Click "New repository secret"
+4. Add:
+   - **Name**: `AZURE_OPENAI_API_KEY`
+   - **Value**: Your Azure OpenAI API key
 
-### 3. 사용 방법
+### 2. Azure OpenAI Configuration
 
-1. 위의 시크릿을 설정한 후
-2. 새로운 이슈를 생성하거나 기존 이슈를 수정
-3. 워크플로우가 자동으로 실행되어 분석 결과를 제공
+The workflow is configured to use:
+- **Endpoint**: Azure OpenAI deployment endpoint
+- **Model**: gpt-4o-mini
+- **API Version**: 2025-01-01-preview
 
-### 4. Azure OpenAI 설정 정보
+### 3. Run the Test Application
 
-- **Endpoint**: `https://eduin4ucpopenaikrc.openai.azure.com/openai/deployments/gpt-4o-mini/chat/completions?api-version=2025-01-01-preview`
-- **Model**: `gpt-4o-mini`
-- **API Version**: `2025-01-01-preview`
+Install dependencies:
+```bash
+uv pip install -r requirements.txt
+```
 
-### 5. 워크플로우 로그 확인
+Start the FastAPI server:
+```bash
+uv run uvicorn main:app --host 0.0.0.0 --port 8000
+```
 
-워크플로우 실행 상태는 Repository의 **Actions** 탭에서 확인할 수 있습니다.
+Test the API:
+```bash
+./test-api-simple.ps1
+```
 
-## 주의사항
+## Available API Endpoints
 
-1. **API 키 보안**: API 키는 반드시 GitHub Secrets에 저장하고 절대 코드에 하드코딩하지 마세요.
-2. **API 사용량**: Azure OpenAI API 사용량을 주기적으로 모니터링하세요.
-3. **권한**: 워크플로우는 이슈 읽기/쓰기 권한이 필요합니다.
+### Error Generation Endpoints
+- `GET /random-error` - Random errors (70% failure rate)
+- `GET /divide` - Division by zero error
+- `GET /timeout` - Timeout simulation (50% failure rate)
+- `GET /database-error` - Database connection error
+- `GET /auth-error` - Authentication error
+- `GET /memory-error` - Memory shortage error
+- `POST /validation-error` - Input validation errors
+- `POST /calculate` - Math operations with error cases
 
-## 커스터마이징
+### Utility Endpoints
+- `GET /` - API information
+- `GET /health` - Health check (20% failure rate)
+- `GET /docs` - Swagger documentation
 
-필요에 따라 다음을 수정할 수 있습니다:
-- 라벨 목록
-- AI 프롬프트
-- 코멘트 형식
-- 트리거 조건
+## Testing the Issue Classification
+
+1. Start the FastAPI application
+2. Use the test script to generate errors
+3. Create GitHub issues describing the problems
+4. Watch the GitHub Actions workflow automatically classify and comment on issues
+
+## Issue Classification Labels
+
+The AI automatically assigns these labels:
+- `bug` - Bug reports
+- `feature` - Feature requests
+- `enhancement` - Improvements
+- `documentation` - Documentation related
+- `question` - Questions
+- `help wanted` - Issues needing help
+- `good first issue` - Beginner-friendly issues
+- `priority-high/medium/low` - Priority levels
+
+## Error Handling
+
+- If the OpenAI API fails, issues are labeled with `needs-triage`
+- Fallback comments are provided when AI analysis fails
+- All API keys are securely stored in GitHub Secrets
+
+## Development
+
+### Requirements
+- Python 3.12+
+- FastAPI
+- Uvicorn
+- Azure OpenAI access
+
+### Running Locally
+1. Clone the repository
+2. Install dependencies with `uv pip install -r requirements.txt`
+3. Configure environment variables
+4. Run `uv run uvicorn main:app --reload`
+
+## License
+
+This project is for demonstration purposes.
