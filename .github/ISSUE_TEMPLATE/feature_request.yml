@@ -1,0 +1,55 @@
+name: ✨ 기능 요청
+description: 새로운 기능이나 개선사항을 제안해 주세요!
+title: "[FEATURE] "
+labels: ["feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        새로운 기능 제안을 해주셔서 감사합니다! ✨
+        AI가 자동으로 이슈를 분석하여 적절한 라벨을 붙이고 안내 코멘트를 남길 예정입니다.
+
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: 🎯 기능 설명
+      description: 원하는 기능에 대해 자세히 설명해 주세요.
+      placeholder: 어떤 기능을 원하시나요?
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-solving
+    attributes:
+      label: 🤔 해결하고자 하는 문제
+      description: 이 기능이 어떤 문제를 해결하나요?
+      placeholder: 현재 어떤 불편함이나 문제가 있나요?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: 💡 제안하는 해결책
+      description: 어떻게 구현되었으면 좋겠나요?
+      placeholder: 구체적인 구현 방법이나 아이디어가 있다면 설명해 주세요.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 🔄 대안
+      description: 다른 방법으로 이 문제를 해결할 수 있나요?
+      placeholder: 고려해본 다른 해결책이 있다면 설명해 주세요.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 📋 추가 정보
+      description: 이 기능 요청에 대한 추가 정보나 스크린샷을 제공해 주세요.
+      placeholder: 스크린샷, 목업, 또는 추가적인 맥락 정보
+    validations:
+      required: false

@@ -1,0 +1,46 @@
+name: ❓ 질문
+description: 궁금한 것이 있으시면 언제든 질문해 주세요!
+title: "[QUESTION] "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        질문해 주셔서 감사합니다! ❓
+        AI가 자동으로 이슈를 분석하여 적절한 라벨을 붙이고 안내 코멘트를 남길 예정입니다.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: 🙋‍♀️ 질문
+      description: 궁금한 것을 자세히 적어주세요.
+      placeholder: 무엇이 궁금하신가요?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 📋 배경 정보
+      description: 질문과 관련된 배경 정보나 상황을 설명해 주세요.
+      placeholder: 어떤 상황에서 이 질문이 생겼나요?
+    validations:
+      required: false
+
+  - type: textarea
+    id: tried-solutions
+    attributes:
+      label: 🔍 시도해본 것들
+      description: 이미 시도해본 해결책이나 찾아본 정보가 있나요?
+      placeholder: 이미 어떤 것들을 시도해보셨나요?
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: 📋 추가 정보
+      description: 질문과 관련된 추가 정보나 스크린샷을 제공해 주세요.
+      placeholder: 스크린샷, 코드, 또는 추가적인 정보
+    validations:
+      required: false

@@ -1,0 +1,71 @@
+name: 🐛 버그 리포트
+description: 버그를 발견하셨나요? 리포트해 주세요!
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        버그 리포트를 작성해 주셔서 감사합니다! 🐛
+        AI가 자동으로 이슈를 분석하여 적절한 라벨을 붙이고 안내 코멘트를 남길 예정입니다.
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: 🔍 버그 설명
+      description: 발생한 버그에 대해 자세히 설명해 주세요.
+      placeholder: 어떤 문제가 발생했나요?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: 📝 재현 단계
+      description: 버그를 재현하는 단계를 순서대로 작성해 주세요.
+      placeholder: |
+        1. '...'로 이동
+        2. '...'을 클릭
+        3. '...'까지 스크롤
+        4. 오류 확인
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: ✅ 예상 동작
+      description: 어떤 결과를 기대했나요?
+      placeholder: 무엇이 일어나기를 기대했나요?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: ❌ 실제 동작
+      description: 실제로 무엇이 일어났나요?
+      placeholder: 실제로 무엇이 일어났나요?
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: 🖥️ 환경 정보
+      description: 실행 환경에 대한 정보를 제공해 주세요.
+      placeholder: |
+        - OS: [예: iOS, Android, Windows, MacOS]
+        - 브라우저: [예: Chrome, Safari, Firefox]
+        - 버전: [예: 22]
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 📋 추가 정보
+      description: 이 문제에 대한 다른 맥락이나 스크린샷을 추가해 주세요.
+      placeholder: 스크린샷, 로그, 또는 추가적인 맥락 정보
+    validations:
+      required: false
